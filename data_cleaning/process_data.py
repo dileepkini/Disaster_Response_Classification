@@ -1,4 +1,5 @@
 import sys
+import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
 
@@ -20,6 +21,9 @@ def clean_data(messages, categories):
 
         # convert column from string to numeric
         categories[column] = pd.to_numeric(categories[column])
+
+        # convert values to binary.
+        categories[column] = np.where(categories[column] > 0, 1, 0)
 
     df = pd.concat([messages, categories], axis=1)
     df = df.drop_duplicates()
