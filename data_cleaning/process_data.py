@@ -16,7 +16,7 @@ def clean_data(messages, categories):
     category_colnames = row.str.split('-').str[0].values
     categories.columns = category_colnames
     for column in categories:
-        # set each value to be the last character of the string
+        # set each value to be number following the '-'
         categories[column] = categories[column].str.split('-').str[1]
 
         # convert column from string to numeric
@@ -25,6 +25,10 @@ def clean_data(messages, categories):
         # convert values to binary.
         categories[column] = np.where(categories[column] > 0, 1, 0)
 
+    # we observe that the rows in the messages and categories map one-to-one
+    # i.e, the n_th row of messages matches up with the n_th row of categories
+    # but the ids are duplicated in both tables, which means merging on ids will give us fake datapoints
+    # this is why we choose to do a simple concat rather than a merge
     df = pd.concat([messages, categories], axis=1)
     df = df.drop_duplicates()
 
