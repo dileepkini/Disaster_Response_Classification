@@ -17,7 +17,7 @@ The project contains 3 main pieces:
 │   └── templates
 │       ├── go.html                   # classification result page of web app
 │       └── master.html               # main page of web app
-├── data_cleaning
+├── data
 │   ├── DisasterResponse.db           # database containing cleaned data
 │   ├── disaster_categories.csv       # raw input file contaning labels
 │   ├── disaster_messages.csv         # raw input file containing input messages
