@@ -49,7 +49,7 @@ def tokenize(text):
 
 def build_model(X_train, y_train):
     pipeline = Pipeline([('count', TfidfVectorizer(tokenizer=tokenize)),
-        ('clf', MultiOutputClassifier(AdaBoostClassifier(base_estimator=DecisionTreeClassifier()), n_jobs=-1))])
+        ('clf', MultiOutputClassifier(AdaBoostClassifier(base_estimator=DecisionTreeClassifier())))])
     
     parameters = {
         'clf__estimator__base_estimator__max_depth' : [None, 2],
