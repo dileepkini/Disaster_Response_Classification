@@ -27,6 +27,16 @@ The project contains 3 main pieces:
     └── model.pickle                  # python pickle file containing trained classifier
 ```
 
+## Requirements
+
+The scripts were built and tested using the following packages. Please ensure approriate versions are installed into your environment before running the scripts in the Instructions section.
+- scikit-learn 0.19.1
+- pandas 0.20.3
+- nltk 3.4.1
+- flask 1.0.3
+- sqlalchemy 1.3.3
+- plotly 3.4.2
+
 ## Instructions
 
 - To run ETL pipeline that cleans data and stores in database
@@ -37,6 +47,6 @@ The project contains 3 main pieces:
 
     `python models/train_classifier.py data/DisasterResponse.db models/model.pkl`
     
-- To run the web application, and go to http://0.0.0.0:3001/
+- To run the web application use the run.py script as follows, and go to http://0.0.0.0:3001/
 
     `python app/run.py`
