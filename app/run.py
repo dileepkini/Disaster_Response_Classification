@@ -26,6 +26,17 @@ lemmatizer = WordNetLemmatizer()
 url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
 def tokenize(text):
+    """
+    A function that tokenizes raw text into individual tokens by
+    removing urls and non-alphabetic characters, splitting by whitespace and converting to lower case.
+    The function also removes stop words and lemmatizes the words.
+    
+    Args:
+        text (str): raw text string which is to be tokenized
+    
+    Returns:
+        list: A list of strings, each string representing a token
+    """
     detected_urls = re.findall(url_regex, text)
     for url in detected_urls:
         text = text.replace(url, " ")

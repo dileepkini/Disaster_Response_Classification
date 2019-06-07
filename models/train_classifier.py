@@ -26,6 +26,14 @@ lemmatizer = WordNetLemmatizer()
 url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
 def load_data(database_filepath):
+    """Retrive the cleaned data stored in the data base in the form of a DataFrame.
+    
+    Args:
+        database_filepath (TYPE): Path to the database file containing cleaned data
+    
+    Returns:
+        (DataFrame, DataFrame, Series): input data, labels, and label names
+    """
     engine = create_engine(f'sqlite:///{database_filepath}')
     conn = engine.connect()
     df = pd.read_sql('DisasterResponse', conn)
@@ -36,6 +44,17 @@ def load_data(database_filepath):
 
 
 def tokenize(text):
+    """
+    A function that tokenizes raw text into individual tokens by
+    removing urls and non-alphabetic characters, splitting by whitespace and converting to lower case.
+    The function also removes stop words and lemmatizes the words.
+    
+    Args:
+        text (str): raw text string which is to be tokenized
+    
+    Returns:
+        list: A list of strings, each string representing a token
+    """
     detected_urls = re.findall(url_regex, text)
     for url in detected_urls:
         text = text.replace(url, " ")
@@ -48,6 +67,15 @@ def tokenize(text):
 
 
 def build_model(X_train, y_train):
+    """Trains a AdaBoost Classifier on the given data by doing a grid search
+    
+    Args:
+        X_train (np.array): A 1-d array containg the training input.
+        y_train (TYPE): A n-d array (where n is the number of categgories) of labels for the given training input.
+    
+    Returns:
+        GridSearchCV: Returns a trained sklearn model in the form a GridSearchCV object.
+    """
     pipeline = Pipeline([('count', TfidfVectorizer(tokenizer=tokenize)),
         ('clf', MultiOutputClassifier(AdaBoostClassifier(base_estimator=DecisionTreeClassifier())))])
     
@@ -62,6 +90,14 @@ def build_model(X_train, y_train):
 
 
 def evaluate_model(model, X_test, y_test, category_names):
+    """Evaluates the performance of a sklearn model on the test data
+    
+    Args:
+        model (Estimator): sklearn estimator on which we can call predict.
+        X_test (np.array): A 1-d array containing the test input.
+        y_test (np.array): A n-d array containing the test output.
+        category_names (list-like): Names of each of the output labels.
+    """
     y_pred = model.predict(X_test)
     for i, col in enumerate(category_names):
         test_col = y_test[:,i]

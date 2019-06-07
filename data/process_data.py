@@ -11,6 +11,15 @@ def load_data(messages_filepath, categories_filepath):
 
 
 def clean_data(messages, categories):
+    """Combines the tabular data by associating messages with their respective categories.
+    
+    Args:
+        messages (pd.DataFrame): DataFrame of the messages extracted from csv.
+        categories (pd.DataFrame): DataFrame of the output categories also extracted from csv
+    
+    Returns:
+        pd.DataFrame: Cleaned data containing the merged result.
+    """
     categories = categories.categories.str.split(';', expand=True)
     row = categories.iloc[0]
     category_colnames = row.str.split('-').str[0].values
@@ -37,6 +46,12 @@ def clean_data(messages, categories):
 
 
 def save_data(df, database_filename):
+    """Save the given dataframe into sqlite database.
+    
+    Args:
+        df (pd.DataFrame): DataFrame that is to be saved
+        database_filename (TYPE): Name of database file in which to save the data.
+    """
     engine = create_engine(f'sqlite:///{database_filename}')
     df.to_sql('DisasterResponse', engine, index=False)
 
